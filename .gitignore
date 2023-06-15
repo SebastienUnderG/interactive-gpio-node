@@ -1,8 +1,5 @@
 /node_modules/
 /.idea/
-/dist/
-/public/
-
 *.gz
 *.log
 src/configImage.ts
