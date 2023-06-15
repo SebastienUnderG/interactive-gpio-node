@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CheckConfig = exports.Gpio_Controle_Binaire = exports.Gpio_Controle_Analogique = exports.BoutonWeb = exports.PresenceDetector = exports.BoutonGPIO = exports.BoutonCLI = exports.Bouton = exports.Pin = void 0;
+exports.Temperature = exports.CheckConfig = exports.Gpio_Controle_Binaire = exports.Gpio_Controle_Analogique = exports.BoutonWeb = exports.PresenceDetector = exports.BoutonGPIO = exports.BoutonCLI = exports.Bouton = exports.Pin = void 0;
 var pin_1 = require("./constante/pin");
 Object.defineProperty(exports, "Pin", { enumerable: true, get: function () { return pin_1.Pin; } });
 var bouton_1 = require("./input/bouton");
@@ -19,3 +19,5 @@ var gpio_Controle_Binaire_1 = require("./output/gpio_Controle_Binaire");
 Object.defineProperty(exports, "Gpio_Controle_Binaire", { enumerable: true, get: function () { return gpio_Controle_Binaire_1.Gpio_Controle_Binaire; } });
 var checkConfig_1 = require("./test/checkConfig");
 Object.defineProperty(exports, "CheckConfig", { enumerable: true, get: function () { return checkConfig_1.CheckConfig; } });
+var temperature_1 = require("./motherboard/temperature");
+Object.defineProperty(exports, "Temperature", { enumerable: true, get: function () { return temperature_1.Temperature; } });
