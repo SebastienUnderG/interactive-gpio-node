@@ -1,6 +1,6 @@
 import {Gpio} from "pigpio";
 import {IGpio_Control} from "./IGpio_Control";
-import {delay} from "../tools/delay";
+import {delay} from "delaytimes";
 
 export class Gpio_Controle_Analogique implements IGpio_Control {
     state: Promise<boolean> = Promise.resolve(false);

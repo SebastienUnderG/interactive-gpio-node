@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Gpio_Controle_Analogique = void 0;
 const pigpio_1 = require("pigpio");
-const delay_1 = require("../tools/delay");
+const delaytimes_1 = require("delaytimes");
 class Gpio_Controle_Analogique {
     state = Promise.resolve(false);
     gpio;
@@ -58,13 +58,13 @@ class Gpio_Controle_Analogique {
         if (currentDutyCycle < pwmRange) {
             for (let i = currentDutyCycle; i <= Math.min(pwmRange, 255); i += stepValue) {
                 this.gpio.pwmWrite(Math.round(i));
-                await (0, delay_1.delay)(delayMs);
+                await (0, delaytimes_1.delay)(delayMs);
             }
         }
         else {
             for (let i = Math.max(currentDutyCycle, 255); i >= pwmRange; i -= stepValue) {
                 this.gpio.pwmWrite(Math.round(i));
-                await (0, delay_1.delay)(delayMs);
+                await (0, delaytimes_1.delay)(delayMs);
             }
         }
     }
@@ -97,9 +97,9 @@ class Gpio_Controle_Analogique {
         count = count ?? 0;
         await this.turnOn(half);
         await this.turnOff(half);
-        await (0, delay_1.delay)(durationOff);
+        await (0, delaytimes_1.delay)(durationOff);
         count++;
-        count < step ? await this.pulse(durationOn, durationOff, step, count) : await (0, delay_1.delay)(100);
+        count < step ? await this.pulse(durationOn, durationOff, step, count) : await (0, delaytimes_1.delay)(100);
     }
 }
 exports.Gpio_Controle_Analogique = Gpio_Controle_Analogique;

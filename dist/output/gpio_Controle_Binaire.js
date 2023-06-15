@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Gpio_Controle_Binaire = void 0;
 const pigpio_1 = require("pigpio");
-const delay_1 = require("../tools/delay");
+const delaytimes_1 = require("delaytimes");
 /**
  * Relay class
  * Wraps the functionality of a relay connected to a Raspberry Pi
@@ -69,11 +69,11 @@ class Gpio_Controle_Binaire {
     async pulse(durationOn = 1000, durationOff = 1000, step = 1, count) {
         count = count ?? 0;
         await this.turnOn();
-        await (0, delay_1.delay)(durationOn);
+        await (0, delaytimes_1.delay)(durationOn);
         await this.turnOff();
-        await (0, delay_1.delay)(durationOff);
+        await (0, delaytimes_1.delay)(durationOff);
         count++;
-        count < step ? await this.pulse(durationOn, durationOff, step, count) : await (0, delay_1.delay)(100);
+        count < step ? await this.pulse(durationOn, durationOff, step, count) : await (0, delaytimes_1.delay)(100);
     }
 }
 exports.Gpio_Controle_Binaire = Gpio_Controle_Binaire;
