@@ -13,32 +13,35 @@ export class Bouton {
     private freezeFlag: { [label: string]: boolean } = {};
 
     constructor(
-        boutonProd: BoutonInterface | null,
-        boutonDev: BoutonInterface | null,
+        bouton: BoutonInterface[],
         private readonly boutonsConfig: BoutonConfig[],
         private readonly setLed: boolean = false,
         private readonly mode: Mode = "dev"
     ) {
-        if (mode === "prod" || mode === "debug") {
-            this.boutonProd = boutonProd;
+        // Assigner les objets BoutonInterface en fonction du mode
+        if (bouton.length > 0 && (mode === "prod" || mode === "debug")) {
+            this.boutonProd = bouton[0];
         }
 
-        if (mode === "dev" || mode === "debug") {
-            this.boutonDev = boutonDev;
+        if (bouton.length === 1 && (mode === "dev" || mode === "debug")) {
+            this.boutonDev = bouton[0];
         }
 
+        if (bouton.length > 1 && (mode === "dev" || mode === "debug")) {
+            this.boutonDev = bouton[1];
+        }
+
+        // Configurer les LED si setLed est vrai
         if (setLed) {
             this.setLED(boutonsConfig);
         }
-
     }
 
     /**
-     * Get the keys object containing the observables of the button press events.
-     * Returns an empty object if not in 'prod', 'dev', or 'debug' mode.
+     * Récupère l'objet contenant les observables des événements de pression des boutons.
+     * Renvoie un objet vide si le mode n'est pas "prod", "dev" ou "debug".
      */
     get keys(): { [pin: string]: Observable<number | boolean> } {
-
 
         if (this.boutonProd && (this.mode === "prod")) {
             return this.boutonProd.keys;
@@ -63,6 +66,7 @@ export class Bouton {
         return {};
     }
 
+    // Récupère les broches des boutons
     get pin(): { [label: string]: number } {
         if (this.boutonProd && (this.mode === "prod" || this.mode === "debug")) {
             return this.boutonProd.pin;
@@ -74,26 +78,30 @@ export class Bouton {
         return {};
     }
 
+    // Récupère les contrôles des LED
     get led(): { [label: string]: IGpio_Control } {
         return this.ledControl;
     }
 
-    keysLabel(label: string): Observable<boolean |number> {
+    // Récupère l'observable d'un bouton en fonction de son label
+    keysLabel(label: string): Observable<boolean | number> {
         return this.keys[this.pin[label]];
     }
 
+    // Configure les contrôles des LED
     setLED(boutonsConfig: BoutonConfig[]): Promise<void[]> {
-        return Promise.all(boutonsConfig.map( (bouton: BoutonConfig) => {
+        return Promise.all(boutonsConfig.map((bouton: BoutonConfig) => {
             if (bouton.pinLED) {
                 const importPromise = import("../output/gpio_Controle_Analogique")
                     .then((module) => {
-                        const Gpio_Controle_Analogique = module.Gpio_Controle_Analogique ;
+                        const Gpio_Controle_Analogique = module.Gpio_Controle_Analogique;
                         this.ledControl[bouton.label] = new Gpio_Controle_Analogique(bouton.pinLED);
                     });
             }
         }));
     }
 
+    // Met en pause la LED associée à un label donné
     freeze(label: string) {
         if (!this.freezeFlag[label]) {
             this.freezeFlag[label] = true;
@@ -101,6 +109,7 @@ export class Bouton {
         }
     }
 
+    // Réactive la LED associée à un label donné
     unFreeze(label: string) {
         if (this.freezeFlag[label]) {
             this.freezeFlag[label] = false;
@@ -109,20 +118,22 @@ export class Bouton {
         this.led[label].turnOn();
     }
 
+    // Met en pause toutes les LED
     freezeAll() {
         Object.keys(this.ledControl).forEach((label: string) => {
             this.freeze(label)
         });
     }
 
+    // Réactive toutes les LED
     unFreezeAll() {
         Object.keys(this.ledControl).forEach((label: string) => {
             this.unFreeze(label)
         });
     }
 
+    // Vérifie si une LED associée à un label est en pause
     isFreeze(label: string): boolean {
         return this.freezeFlag[label];
     }
-
 }

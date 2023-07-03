@@ -34,23 +34,28 @@ class Bouton {
     ledSub = {};
     ledControl = {};
     freezeFlag = {};
-    constructor(boutonProd, boutonDev, boutonsConfig, setLed = false, mode = "dev") {
+    constructor(bouton, boutonsConfig, setLed = false, mode = "dev") {
         this.boutonsConfig = boutonsConfig;
         this.setLed = setLed;
         this.mode = mode;
-        if (mode === "prod" || mode === "debug") {
-            this.boutonProd = boutonProd;
+        // Assigner les objets BoutonInterface en fonction du mode
+        if (bouton.length > 0 && (mode === "prod" || mode === "debug")) {
+            this.boutonProd = bouton[0];
         }
-        if (mode === "dev" || mode === "debug") {
-            this.boutonDev = boutonDev;
+        if (bouton.length === 1 && (mode === "dev" || mode === "debug")) {
+            this.boutonDev = bouton[0];
         }
+        if (bouton.length > 1 && (mode === "dev" || mode === "debug")) {
+            this.boutonDev = bouton[1];
+        }
+        // Configurer les LED si setLed est vrai
         if (setLed) {
             this.setLED(boutonsConfig);
         }
     }
     /**
-     * Get the keys object containing the observables of the button press events.
-     * Returns an empty object if not in 'prod', 'dev', or 'debug' mode.
+     * Récupère l'objet contenant les observables des événements de pression des boutons.
+     * Renvoie un objet vide si le mode n'est pas "prod", "dev" ou "debug".
      */
     get keys() {
         if (this.boutonProd && (this.mode === "prod")) {
@@ -70,6 +75,7 @@ class Bouton {
         }
         return {};
     }
+    // Récupère les broches des boutons
     get pin() {
         if (this.boutonProd && (this.mode === "prod" || this.mode === "debug")) {
             return this.boutonProd.pin;
@@ -79,12 +85,15 @@ class Bouton {
         }
         return {};
     }
+    // Récupère les contrôles des LED
     get led() {
         return this.ledControl;
     }
+    // Récupère l'observable d'un bouton en fonction de son label
     keysLabel(label) {
         return this.keys[this.pin[label]];
     }
+    // Configure les contrôles des LED
     setLED(boutonsConfig) {
         return Promise.all(boutonsConfig.map((bouton) => {
             if (bouton.pinLED) {
@@ -95,12 +104,14 @@ class Bouton {
             }
         }));
     }
+    // Met en pause la LED associée à un label donné
     freeze(label) {
         if (!this.freezeFlag[label]) {
             this.freezeFlag[label] = true;
             this.led[label].turnOff();
         }
     }
+    // Réactive la LED associée à un label donné
     unFreeze(label) {
         if (this.freezeFlag[label]) {
             this.freezeFlag[label] = false;
@@ -108,16 +119,19 @@ class Bouton {
         }
         this.led[label].turnOn();
     }
+    // Met en pause toutes les LED
     freezeAll() {
         Object.keys(this.ledControl).forEach((label) => {
             this.freeze(label);
         });
     }
+    // Réactive toutes les LED
     unFreezeAll() {
         Object.keys(this.ledControl).forEach((label) => {
             this.unFreeze(label);
         });
     }
+    // Vérifie si une LED associée à un label est en pause
     isFreeze(label) {
         return this.freezeFlag[label];
     }

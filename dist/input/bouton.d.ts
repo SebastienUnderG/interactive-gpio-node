@@ -12,10 +12,10 @@ export declare class Bouton {
     private ledSub;
     private ledControl;
     private freezeFlag;
-    constructor(boutonProd: BoutonInterface | null, boutonDev: BoutonInterface | null, boutonsConfig: BoutonConfig[], setLed?: boolean, mode?: Mode);
+    constructor(bouton: BoutonInterface[], boutonsConfig: BoutonConfig[], setLed?: boolean, mode?: Mode);
     /**
-     * Get the keys object containing the observables of the button press events.
-     * Returns an empty object if not in 'prod', 'dev', or 'debug' mode.
+     * Récupère l'objet contenant les observables des événements de pression des boutons.
+     * Renvoie un objet vide si le mode n'est pas "prod", "dev" ou "debug".
      */
     get keys(): {
         [pin: string]: Observable<number | boolean>;
