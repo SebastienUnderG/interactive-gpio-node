@@ -1,23 +1,20 @@
-import {BoutonGPIO} from "./boutonGPIO";
-import {BoutonWeb} from "./boutonWeb";
 import {merge, Observable, Subscription} from "rxjs";
 import {BoutonConfig} from "./boutonConfig";
-import {BoutonCLI} from "./boutonCLI";
 import {IGpio_Control} from "../output/IGpio_Control";
-import {Gpio_Controle_Analogique} from "../output/gpio_Controle_Analogique";
+import {BoutonInterface} from "./BoutonInterface";
 
 type Mode = "prod" | "dev" | "debug";
 
 export class Bouton {
-    private readonly boutonProd: BoutonGPIO | BoutonWeb | BoutonCLI | null = null;
-    private readonly boutonDev: BoutonGPIO | BoutonWeb | BoutonCLI | null = null;
+    private readonly boutonProd: BoutonInterface | null = null;
+    private readonly boutonDev: BoutonInterface | null = null;
     private ledSub: { [pin: string]: Subscription } = {};
     private ledControl: { [boutonLabels: string]: IGpio_Control } = {};
     private freezeFlag: { [label: string]: boolean } = {};
 
     constructor(
-        boutonProd: any,
-        boutonDev: any,
+        boutonProd: BoutonInterface | null,
+        boutonDev: BoutonInterface | null,
         private readonly boutonsConfig: BoutonConfig[],
         private readonly setLed: boolean = false,
         private readonly mode: Mode = "dev"
@@ -53,11 +50,13 @@ export class Bouton {
 
         if (this.boutonDev?.keys && this.boutonProd?.keys && (this.mode === "debug")) {
             const keys: { [pin: string]: Observable<boolean | number> } = {};
+
             Object.keys(this.boutonProd.keys).forEach((key: string) => {
                 if (this.boutonProd?.keys && this.boutonDev?.keys) {
                     keys[key] = merge(this.boutonProd.keys[key], this.boutonDev.keys[key])
                 }
             });
+
             return keys;
         }
 
@@ -83,14 +82,16 @@ export class Bouton {
         return this.keys[this.pin[label]];
     }
 
-    setLED(boutonsConfig: BoutonConfig[]): Promise<any> {
-
+    setLED(boutonsConfig: BoutonConfig[]): Promise<void[]> {
         return Promise.all(boutonsConfig.map( (bouton: BoutonConfig) => {
             if (bouton.pinLED) {
-                this.ledControl[bouton.label] = new Gpio_Controle_Analogique(bouton.pinLED);
+                const importPromise = import("../output/gpio_Controle_Analogique")
+                    .then((module) => {
+                        const Gpio_Controle_Analogique = module.Gpio_Controle_Analogique ;
+                        this.ledControl[bouton.label] = new Gpio_Controle_Analogique(bouton.pinLED);
+                    });
             }
         }));
-
     }
 
     freeze(label: string) {

@@ -21,16 +21,22 @@ class BoutonWeb {
     addButton(config) {
         this.keys[config.pin.toString()] = new rxjs_1.Observable((observer) => {
             this.app.get(`/keys/${config.pin}`, (req, res) => {
-                const date = new Date();
-                // Crée une liste HTML de boutons pour chaque endpoint de broche
-                const buttonsList = this.pins.map(pin => `<form method="get" action="/keys/${pin.pin}"><button type="submit">Button ${pin.label} pin ${pin.pin}</button></form><br>`)
-                    .join('');
-                const message = `Button ${config.label} pin ${config.pin}  has been pressed at ${date.toLocaleString()}`;
-                console.log(message);
-                res.status(200).send(`<h1>${message}</h1> <br/> <h1>Liste des boutons :</h1><div> ${buttonsList}</div>`);
-                observer.next(true);
+                this.actionButton(config, observer, res);
+            });
+            this.app.get(`/keys/${config.label}`, (req, res) => {
+                this.actionButton(config, observer, res);
             });
         });
+    }
+    actionButton(config, observer, res) {
+        const date = new Date();
+        // Crée une liste HTML de boutons pour chaque endpoint de broche
+        const buttonsList = this.pins.map((pin) => `<form method="get" action="/keys/${pin.pin}"><button type="submit">Button ${pin.label} pin ${pin.pin}</button></form><br>`)
+            .join('');
+        const log = `Button ${config.label} pin ${config.pin}  has been pressed at ${date.toLocaleString()}`;
+        console.info(log);
+        res.status(200).send(`<h1>${log}</h1> <br/> <h1>Liste des boutons :</h1><div> ${buttonsList}</div>`);
+        observer.next(true);
     }
     configureButtons() {
         // Routes pour chaque broche

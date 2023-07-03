@@ -1,5 +1,6 @@
 import { Observable } from "rxjs";
 import { BoutonConfig } from "./boutonConfig";
+import { BoutonInterface } from "./BoutonInterface";
 /**
  * Interface used to describe a keyboard button
  *
@@ -23,7 +24,7 @@ export interface BoutonKeyboardCLI {
  *
  * @property {Observable<BoutonKeyboardCLI>} key - An observable that will emit a BoutonKeyboardCLI object when a configured key is pressed
  */
-export declare class BoutonCLI {
+export declare class BoutonCLI implements BoutonInterface {
     keyDebug: Observable<BoutonKeyboardCLI> | null;
     keys: {
         [keyboard: string]: Observable<boolean>;

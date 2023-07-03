@@ -1,10 +1,11 @@
 import { Observable } from "rxjs";
 import { BoutonConfig } from "./boutonConfig";
+import { BoutonInterface } from "./BoutonInterface";
 /**
  * BoutonGPIO class
  * Wraps the functionality of multiple GPIO buttons connected to a Raspberry Pi
  */
-export declare class BoutonGPIO {
+export declare class BoutonGPIO implements BoutonInterface {
     /**
      * An object that holds the button instances
      */

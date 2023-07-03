@@ -46,7 +46,7 @@ class BoutonGPIO {
         delete this.keys[pin];
     }
     configureButtons(buttons) {
-        buttons.forEach(button => {
+        buttons.forEach((button) => {
             if (button.label) {
                 this.pin[button.label] = button.pin;
             }

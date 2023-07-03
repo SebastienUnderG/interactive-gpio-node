@@ -1,6 +1,7 @@
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 import { BoutonConfig } from "./boutonConfig";
-export declare class BoutonWeb {
+import { BoutonInterface } from "./BoutonInterface";
+export declare class BoutonWeb implements BoutonInterface {
     private readonly pins;
     private readonly port;
     keys: {
@@ -12,5 +13,6 @@ export declare class BoutonWeb {
     private readonly app;
     constructor(pins: BoutonConfig[], port?: number);
     addButton(config: BoutonConfig): void;
-    private configureButtons;
+    actionButton(config: BoutonConfig, observer: Subscriber<boolean>, res: any): void;
+    configureButtons(): void;
 }

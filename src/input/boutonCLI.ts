@@ -1,5 +1,6 @@
 import {Observable} from "rxjs";
 import {BoutonConfig} from "./boutonConfig";
+import {BoutonInterface} from "./BoutonInterface";
 
 /**
  * Interface used to describe a keyboard button
@@ -26,7 +27,7 @@ export interface BoutonKeyboardCLI {
  *
  * @property {Observable<BoutonKeyboardCLI>} key - An observable that will emit a BoutonKeyboardCLI object when a configured key is pressed
  */
-export class BoutonCLI {
+export class BoutonCLI implements BoutonInterface{
     keyDebug: Observable<BoutonKeyboardCLI> | null = null;
     keys: { [keyboard: string]: Observable<boolean> } = {};
     pin: { [label: string]: number } = {};
@@ -83,7 +84,6 @@ export class BoutonCLI {
             }
         }
 
-
         process.stdin.setRawMode(true);
         process.stdin.resume();
     }
@@ -98,6 +98,4 @@ export class BoutonCLI {
             });
         });
     }
-
-
 }

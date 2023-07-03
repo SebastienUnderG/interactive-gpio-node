@@ -1,6 +1,7 @@
 import { Observable } from "rxjs";
 import { BoutonConfig } from "./boutonConfig";
 import { IGpio_Control } from "../output/IGpio_Control";
+import { BoutonInterface } from "./BoutonInterface";
 type Mode = "prod" | "dev" | "debug";
 export declare class Bouton {
     private readonly boutonsConfig;
@@ -11,7 +12,7 @@ export declare class Bouton {
     private ledSub;
     private ledControl;
     private freezeFlag;
-    constructor(boutonProd: any, boutonDev: any, boutonsConfig: BoutonConfig[], setLed?: boolean, mode?: Mode);
+    constructor(boutonProd: BoutonInterface | null, boutonDev: BoutonInterface | null, boutonsConfig: BoutonConfig[], setLed?: boolean, mode?: Mode);
     /**
      * Get the keys object containing the observables of the button press events.
      * Returns an empty object if not in 'prod', 'dev', or 'debug' mode.
@@ -26,7 +27,7 @@ export declare class Bouton {
         [label: string]: IGpio_Control;
     };
     keysLabel(label: string): Observable<boolean | number>;
-    setLED(boutonsConfig: BoutonConfig[]): Promise<any>;
+    setLED(boutonsConfig: BoutonConfig[]): Promise<void[]>;
     freeze(label: string): void;
     unFreeze(label: string): void;
     freezeAll(): void;

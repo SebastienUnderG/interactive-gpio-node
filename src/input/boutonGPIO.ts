@@ -1,13 +1,14 @@
 import {Observable, Subscriber} from "rxjs";
 import {Gpio} from "onoff";
 import {BoutonConfig} from "./boutonConfig";
+import {BoutonInterface} from "./BoutonInterface";
 
 
 /**
  * BoutonGPIO class
  * Wraps the functionality of multiple GPIO buttons connected to a Raspberry Pi
  */
-export class BoutonGPIO {
+export class BoutonGPIO implements BoutonInterface {
 
     /**
      * An object that holds the button instances
@@ -56,7 +57,7 @@ export class BoutonGPIO {
     }
 
     configureButtons(buttons: BoutonConfig[]) {
-        buttons.forEach(button => {
+        buttons.forEach((button: BoutonConfig) => {
 
             if (button.label) {
                 this.pin[button.label] = button.pin;
