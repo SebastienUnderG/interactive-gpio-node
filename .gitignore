@@ -1,5 +1,4 @@
 /node_modules/
 /.idea/
-*.gz
-*.log
-src/configImage.ts
+/dist/
+
