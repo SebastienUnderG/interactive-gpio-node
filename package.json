@@ -6,6 +6,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "npm run tsc",
+    "testrun" : "npm run tsc && node dist/test",
     "buildlint": "npm run tsc && npm run lint",
     "clean": "rimraf ./dist",
     "lint": "eslint -c .eslintrc.js --ext .ts ./src --fix",
