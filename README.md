@@ -60,3 +60,4 @@ Abstraction d'un relais connecté à un Raspberry Pi.
 ### 🧪 temperature :
 
 Le code présenté est une classe appelée "Temperature" qui surveille la température d'un système. Elle utilise une bibliothèque appelée "rxjs" pour gérer les flux de données asynchrones. L'entrée de la classe est l'intervalle de vérification de la température et la température dangereuse (par défaut, 70 degrés Celsius), et la sortie est un flux d'objets contenant la température actuelle et un indicateur indiquant si la température est dangereuse ou non.
+
