@@ -92,11 +92,13 @@ export class Bouton {
     setLED(boutonsConfig: BoutonConfig[]): Promise<void[]> {
         return Promise.all(boutonsConfig.map((bouton: BoutonConfig) => {
             if (bouton.pinLED) {
-                // @ts-ignore
-                import('../output/gpio_Controle_Analogique')
+                import('../output/gpio_Controle_Analogique.js')
                     .then(({Gpio_Controle_Analogique}) => {
                         this.ledControl[bouton.label] = new Gpio_Controle_Analogique(bouton.pinLED);
-                    });
+                    }).catch((error) => {
+                    // Gère les erreurs d'importation
+                    console.error(`Erreur lors de l'importation du module Gpio_Controle_Analogique : ${error}`);
+                })
             }
         }));
     }
