@@ -3,10 +3,12 @@ import {Observable, Subscriber} from "rxjs";
 
 // HC-SR04 ultrasonic sensor
 export class PresenceDetector {
+    /* presence in cm */
     public isPresent: Observable<number> = new Observable<number>();
 
     private trigger: Gpio;
     private echo: Gpio;
+
     // une variable pour sauvegarder le setinterval
     private intervalTrigger: NodeJS.Timeout | null = null;
 
