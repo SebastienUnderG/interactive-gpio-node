@@ -1,7 +1,7 @@
 import {merge, Observable, Subscription} from "rxjs";
-import {BoutonConfig} from "./boutonConfig";
+import {BoutonConfig} from "./model/boutonConfig";
 import {IGpio_Control} from "../output/IGpio_Control";
-import {BoutonInterface} from "./BoutonInterface";
+import {BoutonInterface} from "./model/BoutonInterface";
 
 type Mode = "prod" | "dev" | "debug";
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import {Observable, Subscriber} from 'rxjs';
-import {BoutonConfig} from "./boutonConfig";
-import {BoutonInterface} from "./BoutonInterface";
+import {BoutonConfig} from "./model/boutonConfig";
+import {BoutonInterface} from "./model/BoutonInterface";
 
 export class BoutonWeb implements BoutonInterface {
     keys: { [pin: string]: Observable<boolean> } = {};

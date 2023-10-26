@@ -2,7 +2,7 @@ export {Pin} from './constante/pin';
 
 export {Bouton} from './input/bouton';
 export {BoutonCLI, BoutonKeyboardCLI} from './input/boutonCLI';
-export {BoutonConfig} from './input/boutonConfig';
+export {BoutonConfig} from './input/model/boutonConfig';
 export {BoutonGPIO} from './input/boutonGPIO';
 export {PresenceDetector} from './input/presence';
 export {BoutonWeb} from './input/boutonWeb';

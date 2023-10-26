@@ -1,7 +1,7 @@
 import {Observable, Subscriber} from "rxjs";
 import {Gpio} from "onoff";
-import {BoutonConfig} from "./boutonConfig";
-import {BoutonInterface} from "./BoutonInterface";
+import {BoutonConfig} from "./model/boutonConfig";
+import {BoutonInterface} from "./model/BoutonInterface";
 
 
 /**

@@ -7,7 +7,7 @@ export class PresenceDetector {
 
     private trigger: Gpio;
     private echo: Gpio;
-    // une variable pour stoquer le setinterval
+    // une variable pour sauvegarder le setinterval
     private intervalTrigger: NodeJS.Timeout | null = null;
 
 

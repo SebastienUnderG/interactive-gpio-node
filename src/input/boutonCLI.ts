@@ -1,6 +1,6 @@
 import {Observable} from "rxjs";
-import {BoutonConfig} from "./boutonConfig";
-import {BoutonInterface} from "./BoutonInterface";
+import {BoutonConfig} from "./model/boutonConfig";
+import {BoutonInterface} from "./model/BoutonInterface";
 
 /**
  * Interface used to describe a keyboard button
